@@ -1,0 +1,97 @@
+---
+layout: post
+title: Testing Polly Nuget Package(its speaks by itself just test the code)
+date: 2015-01-31 12:21:06.000000000 -05:00
+type: post
+published: true
+status: publish
+categories:
+- Awesome Tools
+tags:
+- .Net
+- C#
+- Exceptions Policy
+- Fluent
+- Polly
+meta:
+  _edit_last: '26965888'
+  _publicize_pending: '1'
+  publicize_facebook_url: https://facebook.com/994251357270413
+  publicize_linkedin_url: ''
+  geo_public: '0'
+  _wpas_done_3086395: '1'
+  _publicize_done_external: a:1:{s:8:"facebook";a:1:{i:100000566730997;b:1;}}
+  publicize_twitter_user: nebtrx
+  publicize_twitter_url: http://t.co/xe5WPK03iE
+  _wpas_done_3086381: '1'
+  _wpas_done_3086375: '1'
+  _oembed_60a9926774429cc0452f451008481a70: '{{unknown}}'
+  _wpas_skip_3086395: '1'
+  _wpas_skip_3086381: '1'
+  _wpas_skip_3086375: '1'
+author:
+  login: neb85
+  email: neb.trx@gmail.com
+  display_name: Neb
+  first_name: ''
+  last_name: ''
+---
+<p><a href="https://camo.githubusercontent.com/25470844d34ccc5bc217e71eba348d9025a259ea/68747470733a2f2f7261772e6769746875622e636f6d2f6d69636861656c2d776f6c66656e64656e2f506f6c6c792f6d61737465722f506f6c6c792e706e67"><img class="" src="{{ site.baseurl }}/assets/68747470733a2f2f7261772e6769746875622e636f6d2f6d69636861656c2d776f6c66656e64656e2f506f6c6c792f6d61737465722f506f6c6c792e706e67" alt="" width="120" height="120" /></a></p>
+<p><a title="Polly" href="https://github.com/michael-wolfenden/Polly" target="_blank">Polly</a> is a .NET 3.5 / 4.0 / 4.5 / PCL (Profile 259) library that allows developers to express transient exception handling policies such as Retry, Retry Forever, Wait and Retry or Circuit Breaker in a fluent manner.</p>
+<p>Here I let you guys a self explained sample of how to use it.</p>
+<pre>using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Polly;
+ 
+namespace ConsoleApplication7
+{
+    class Program
+    {
+        private static int _loopCounter = 0;
+        private static int _random = new Random().Next(2, 10);
+ 
+        static void Main(string[] args)
+        {
+            Console.WriteLine("This app tests Polly Nuget Package");
+            Console.WriteLine("\"https://www.nuget.org/packages/Polly/\")");
+            Console.WriteLine("\nIt expresses transient exception handling policies such as Retry, ");
+            Console.WriteLine("Retry Forever, Wait and Retry or Circuit Breaker in a fluent manner.");
+            
+            Console.WriteLine("\nThe example app tries to retrieve the current millisecond value ");
+            Console.WriteLine("of the current time of day and if that value falls between 200 and 400");
+            Console.WriteLine("it will raised an ArgumentOutOfRangeException.");
+            Console.WriteLine("\nThe app will retry 300 times to retrieve a result");
+            Console.WriteLine("before finally failing its purpose.\n ");
+            try
+            {
+                var result = Policy.Handle()
+                .Retry(300, (exception, retryCount, context) =&gt; Console.WriteLine("\n{0} times {1} raised with context info &lt;{2}&gt;", retryCount, exception.GetType().Name, context["info"]))
+                .Execute(() =&gt; DoSomething(), new Dictionary&lt;string, object&gt;() { { "info", "context info" } });
+ 
+                Console.WriteLine("\nResult is {0} after {1} iterations\n", result, _loopCounter);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\nThe application exceed the number of retries(300) to adquire a valid result\n");
+            }
+            
+        }
+ 
+        private static int DoSomething()
+        {
+            int result;
+            // this is set to avoid an early application ends without retrying
+            // this way it will always run at least a random number of times between 2 and 10
+            result = _loopCounter &lt; _random? 201 : DateTime.Now.Millisecond;             _loopCounter++;               if (result &gt; 200 &amp;&amp; result &lt; 400)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            return result;
+        }
+    }
+}
+</pre>

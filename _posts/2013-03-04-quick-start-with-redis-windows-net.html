@@ -1,0 +1,45 @@
+---
+layout: post
+title: Quick start with Redis, Windows & .Net
+date: 2013-03-04 23:12:36.000000000 -05:00
+type: post
+published: true
+status: publish
+categories:
+- Awesome Tools
+tags:
+- .Net
+- open source project
+- Redis
+- Redis Server
+- Windows
+meta:
+  _edit_last: '26965888'
+  _publicize_pending: '1'
+  tagazine-media: a:7:{s:7:"primary";s:0:"";s:6:"images";a:0:{}s:6:"videos";a:0:{}s:11:"image_count";i:0;s:6:"author";s:8:"26965888";s:7:"blog_id";s:8:"31371023";s:9:"mod_stamp";s:19:"2013-03-05
+    04:12:36";}
+author:
+  login: neb85
+  email: neb.trx@gmail.com
+  display_name: Neb
+  first_name: ''
+  last_name: ''
+---
+<p><strong>Introduction</strong><br />
+<a href="http://redis.io/" target="_blank">Redis</a> is data structure server (a sort of advanced key-value store) largely recognized for being the most efficient NoSQL solution to manage rich data structures. For those who haven’t tried it and are familiar with <a href="http://memcached.org/" target="_blank">Memcached</a>, Redis is like a Memcached decorator with extra commands, extra data types(strings, lists, sets, sorted sets or hashes), extra speed (even more than 100 000 rps in some scenarios), nonvolatile persistence and, last but not less important, a huge ease of use. Redis flexibility and speed makes it a powerful tool that can be used extensively for building and scaling IT solutions as NoSQL storage,  distributed cache system, and even as message queue solution. For a deep dive into Redis you should consider consulting its <a href="http://code.google.com/p/redis/wiki/README" target="_blank">documentation</a></p>
+<p><strong>Versions</strong><br />
+Redis first development began in 2009 as a key value store by Salvatore Sanfilippo in order to improve the performance of an analytics product implemented by him. It grew in popularity after getting support from people and companies in the development community, as for example, VMware which is its actual sponsor. Redis is written in ANSI C and works in most POSIX systems like Linux, *BSD, OS X without external dependencies. Unfortunately there is no native support for Redis in Windows, so we depend on third party versions. So, the candidates are a couple of GitHub hosted open source project:<br />
+•	<a href="https://github.com/MSOpenTech/redis" target="_blank">MSOpenTech</a><br />
+•	<a href="https://github.com/dmajkic/redis" target="_blank">Windows 32 and x64 port of Redis server</a></p>
+<p>MSOpenTech recently become the Official Version Redis for Windows. It’s a good looking prototype still without a stable release but with a promising future. MSOpenTech took a lot from the other mentioned candidate, which is a quiet and older stable open source project run by Dušan Majkic (https://github.com/dmajkic, https://github.com/dmajkic/redis/) which has been for some time the most reliable port of Redis for Windows(I’m 90% sure also the unique until MSOpenTech). Also there is this <a href="https://github.com/rgl/redis" target="_blank">fork </a> of Majkic’s project which lets you run Redis Server as a Windows Service and comes with Windows Installer. It was written by some guy which name I can infer from its <a href="http://ruilopes.com/" target="_blank">website </a>but I prefer not to take the risk of put it here. So, as you may guess by now this is my favorite version (I didn’t include it as candidate for a being a fork of one of them). Plus!, the aka redis-server-for-lazy-ones-edition makes a perfect fit. The Windows Installer for 32/64 bits is available for download <a href="http://ruilopes.com/redis-setup/" target="_blank">here</a>.</p>
+<p><strong>Server Installation</strong><br />
+As easy as double click the windows installer and get a server instance running on localhost under port 6379 as a service. The installer also makes room for a redis-cli client.</p>
+<p><strong>.Net Developing + Redis</strong><br />
+In order to begin developing with Redis under .Net framework there are two main choices in the spotlight when the discussion goes about C# Redis Client Libraries.</p>
+<p>•	Booksleve: It offers a fully pipelined, asynchronous, multiplexed and thread-safe access to Redis in busiest environments. For further info about it click <a href="http://marcgravell.blogspot.com/2011/04/async-redis-await-booksleeve.html" target="_blank">here</a>. BookSleeve is available via Nuget and you may install it from the Package Manager Console by typing:</p>
+<p><code>PM&gt; Install-Package BookSleve</code></p>
+<p>•	ServiceStack.Redis: Is an Open Source C# Redis client library based on <a href="http://twitter.com/migueldeicaza" target="_blank">Miguel de Icaza</a> previous efforts with <a href="http://github.com/migueldeicaza/redis-sharp" target="_blank">redis-sharp</a>. ServiceStack.Redis propose different client connection managers so you can choose the proper one for multi-threaded applications scenarios as well as a variety of clients optimized for maximum efficiency and armed with layered functionality for a maximum developer productivity. The library is an independent project which lies inside the ServiceStack Web Services Framework, used in the stackoverflow’s web architecture, but can be used with or without it. Its   huge and flexible API makes it the ideal option when dealing with large scale projects using Redis. ServiceStack.Redis is available at Nuget repositories and you may install it from the Package Manager Console by typing:</p>
+<p><code>PM&gt; Install-Package ServiceStack.Redis</code></p>
+<p><strong>Summary</strong><br />
+Redis is an incredible powerful and easy to learn technology which trades complex generic storage solutions for simplicity  and stunning performance  suitable for more specific solutions such as cache and NoSQL storage, and message queue as well. Unfortunately Windows doesn’t have the latest word on Redis because it isn’t officially supported by its developing team. This post tries to minimize the underlying distance of that fact for those who want make the jump. So, good luck and good jump, you won’t get killed trying it, that you can have it for sure.</p>
+<p>See you folks.</p>

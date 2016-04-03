@@ -1,0 +1,140 @@
+---
+layout: post
+title: .Net C# Generic Thread Safe Cache, how may I help you?
+date: 2013-03-24 16:51:17.000000000 -05:00
+type: post
+published: true
+status: publish
+categories:
+- Design Practices and Patterns
+tags:
+- .Net
+- C#
+- Cache
+- Generic
+- Thread Safe
+meta:
+  _edit_last: '26965888'
+  _publicize_pending: '1'
+  _wpas_done_3086395: '1'
+  _wpas_done_3086375: '1'
+  _publicize_done_external: a:1:{s:8:"facebook";a:1:{i:100000566730997;b:1;}}
+  publicize_twitter_user: nebtrx
+  _wpas_done_3086381: '1'
+  tagazine-media: a:7:{s:7:"primary";s:54:"http://trialexpired.files.wordpress.com/2013/03/po.png";s:6:"images";a:1:{s:54:"http://trialexpired.files.wordpress.com/2013/03/po.png";a:6:{s:8:"file_url";s:54:"http://trialexpired.files.wordpress.com/2013/03/po.png";s:5:"width";i:799;s:6:"height";i:230;s:4:"type";s:5:"image";s:4:"area";i:183770;s:9:"file_path";b:0;}}s:6:"videos";a:0:{}s:11:"image_count";i:1;s:6:"author";s:8:"26965888";s:7:"blog_id";s:8:"31371023";s:9:"mod_stamp";s:19:"2013-03-24
+    21:51:17";}
+author:
+  login: neb85
+  email: neb.trx@gmail.com
+  display_name: Neb
+  first_name: ''
+  last_name: ''
+---
+<p style="text-align:justify;">A few days ago I ran repeatedly in the need of using a cache abstract data structure for storing objects (.Net C# objects) with expensive creation process. So, I said to myself:</p>
+<p style="text-align:justify;"><i>“Myself, you need to make a generic cache abstract data structure you can use any time, and you will improve it as your needs over time dictate. In fact the first improvement dictated would be it must be thread safe, because many objects guys will want to flatter that cache girl.“</i></p>
+<p style="text-align:justify;">, and after such revelation I put my fingers to work.</p>
+<p style="text-align:justify;">Was then when born the <em>ThreadSafeCache&lt;TKey, TValue&gt;</em> class with a static <em>Dictionary&lt;TKey, TValue&gt; _cacheStore</em> field acting as in memory cache store. There are two special thing to highlight in this code.</p>
+<pre style="text-align:justify;">    public class ThreadSafeCache&lt;TKey, TValue&gt;: ICache&lt;TKey, TValue&gt;
+    {
+        private static Dictionary&lt;TKey, TValue&gt; _cacheStore;
+        public ThreadSafeCache()
+        {
+            _cacheStore = new Dictionary&lt;TKey, TValue&gt;();
+        }
+
+        public virtual TValue Get(TKey key)
+        {
+            lock (_cacheStore)
+            {
+                TValue value;</pre>
+<pre style="text-align:justify;">                if (_cacheStore.TryGetValue(key, out value))
+                {
+                    return value;
+                }
+            }
+            return default(TValue);
+        }
+
+        public virtual void Store(TKey key, TValue value)
+        {
+            lock (_cacheStore)
+            {
+                _cacheStore[key] = value;
+            }
+        }
+
+        public virtual TValue this[TKey key]
+        {
+            get
+            {
+                return Get(key);
+            }
+            set
+            {
+                Store(key,value);
+            }</pre>
+<pre style="text-align:justify;">        }</pre>
+<pre style="text-align:justify;">        public virtual TValue GetLazy(TKey key, Func&lt;TValue&gt; valueLazyInitializer)
+        {
+            lock (_cacheStore)
+            {
+                TValue value;
+                if (_cacheStore.TryGetValue(key, out value))
+                {
+                    return value;
+                }
+                //else
+                value = valueLazyInitializer.Invoke();
+                _cacheStore[key] = value;
+                return value;
+            }
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return _cacheStore.ContainsKey(key);
+        }
+        public bool ContainsValue(TValue value)
+        {
+            return _cacheStore.ContainsValue(value);
+        }
+    }
+
+<span style="font-family:Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;font-size:13px;line-height:19px;">The first is the logic of the Get and Store method:</span></pre>
+<pre style="text-align:justify;">            // Get logic
+            lock (_cacheStore)
+            {
+                TValue value;
+                if (_cacheStore.TryGetValue(key, out value))
+                {
+                    return value;
+                }
+            }
+            return default(TValue);
+
+            // Store Logic
+            lock (_cacheStore)
+            {
+                _cacheStore[key] = value;
+            }</pre>
+<p style="text-align:justify;">The locking of the cache static field allows a precise control over the scope and granularity of reading and storing operations. I choose this simple approach because thread safety is achieved primarily by locking to reduce the opportunities for thread interaction.</p>
+<p style="text-align:justify;">The second special things is this method called <em>GetLazy</em>, which is my favorite because it allows me to ask for an object with a 50 % possibilities of being previously cached, and it lets you provide a lambda for creating it(expensive process) if it wasn’t previously cached.</p>
+<pre style="text-align:justify;">        public virtual TValue GetLazy(TKey key, Func&lt;TValue&gt; valueLazyInitializer)
+        {
+            lock (_cacheStore)
+            {
+                TValue value;
+                if (_cacheStore.TryGetValue(key, out value))
+                {
+                    return value;
+                }
+                //else
+                value = valueLazyInitializer.Invoke();
+                _cacheStore[key] = value;
+                return value;
+            }
+        }</pre>
+<p style="text-align:justify;">This design may create a slight inefficiency while the entire cache would be locked up for the duration of the object creation operation. An alternative approach to solve this issue would be to deploy the locking in two moments, the first during the reading and the second during the storing, leaving out of lock the object creation operation and its expense of time (and processing capabilities). However, that way we are encouraging another performance inefficiency coming up if two(or more) threads simultaneously called this method looking (not locking) for the same uncached resource, the expensive object creation operation will be called twice(or more) and the Dictionary cache store will be updated unnecessarily.</p>
+<p style="text-align:justify;">Ending up, a little of advertising: I know it could be tricky to understand how to use the <em>GetLazy </em>method for some of you (I presented it to a folk and he was like: “<i>huhh?! It should be called GetOrSet</i>”), especially by the name and the lack of context. That’s why I‘d like to provide a practical real life example of something I’m working on In order to understand the ideal context for using GetLazy. Watch up in the next image/code how it’s used to retrieve the correspondent <em>Mapper<strong> </strong></em>for the given <em>TEntity<strong> </strong></em>Type.</p>
+<p><a href="http://trialexpired.files.wordpress.com/2013/03/po.png"><img class="size-full wp-image aligncenter" id="i-86" alt="Image" src="{{ site.baseurl }}/assets/po.png?w=650" /></a></p>
+<p>I hope this would be useful at any level. See you in the next one.</p>
