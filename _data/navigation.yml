@@ -1,7 +1,16 @@
 # main links links
 main:
-  - title: "Sample Navigation Link"
+  - title: "Me"
     url: https://mmistakes.github.io/minimal-mistakes/docs/navigation/
 
-  - title: "Sample Navigation Link 2"
+  - title: "Blog"
+    url: /
+
+  - title: "Twilio Contributions"
+    url: /
+
+  - title: "Resume"
+    url: /
+
+  - title: "Contact"
     url: /
