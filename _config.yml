@@ -85,7 +85,7 @@ author:
   location         : "Quito, Ecuador"
   email            : "neb.trx@gmail.com"
   uri              :
-  bitbucket        :
+  bitbucket        : "nebtrx"
   codepen          :
   dribbble         :
   flickr           :
@@ -229,3 +229,17 @@ compress_html:
   clippings: all
   ignore:
     envs: development
+
+
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
