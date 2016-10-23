@@ -1,5 +1,7 @@
 ---
 title: ASP.NET MVC3/MVC4 Unobtrusive Validation with Twitter Bootstrap style views
+categories:
+- hacks
 tags:
 - ASP.NET
 - ASP.NET MVC
