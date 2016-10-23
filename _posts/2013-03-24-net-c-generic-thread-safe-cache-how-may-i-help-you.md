@@ -4,7 +4,6 @@ categories:
 - ood
 tags:
 - .Net
-- Design Practices
 - C#
 - Cache
 - Thread Safe

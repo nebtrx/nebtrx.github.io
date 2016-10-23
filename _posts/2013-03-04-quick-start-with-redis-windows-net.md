@@ -4,7 +4,6 @@ categories:
 - getting_started_with
 tags:
 - .Net
-- open source project
 - Redis
 - Redis Server
 - Windows
