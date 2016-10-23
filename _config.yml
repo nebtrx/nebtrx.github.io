@@ -8,7 +8,7 @@
 # Site Settings
 locale                   : "en"
 title                    : "Trial Expired!"
-title_separator          : "-"
+title_separator          : "|"
 name                     : "Omar Ahmed"
 description              : "Hello Geeks"
 url                      : "https://nebtrx.github.io"
@@ -163,6 +163,42 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
 
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
+  recipes:
+    output: true
+    permalink: /:collection/:path/
+  pets:
+    output: true
+    permalink: /:collection/:path/
+  portfolio:
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
 
 # Sass/SCSS
 sass:
@@ -229,17 +265,3 @@ compress_html:
   clippings: all
   ignore:
     envs: development
-
-
-defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true

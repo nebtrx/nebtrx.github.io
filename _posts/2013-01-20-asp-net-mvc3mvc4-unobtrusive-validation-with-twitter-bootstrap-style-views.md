@@ -1,5 +1,4 @@
 ---
-layout: single
 title: ASP.NET MVC3/MVC4 Unobtrusive Validation with Twitter Bootstrap style views
 tags:
 - ASP.NET
@@ -17,13 +16,13 @@ If you're working with ASP.NET MVC3/MVC4 and you're opting to enhance your views
 
 This is what you wanna get:
 
-![Desired Client Validation Behavior]({{ site.baseurl }}/assets/capture1.png){:class="img-responsive"}
+![Desired Client Validation Behavior]({{ site.baseurl }}/images/capture1.png){:class="img-responsive"}
 
 **The code**
 
 In order to achieve that you may follow a couple of ways, but with the exception of modifying the CSS styles of the MVC 3 Unobtrusive jQuery Validation Plugin, most of them lead to the same end: modify the highlight/unhighlight handlers to obtain the desire effect. This is easy, but  first you have to layout the view using the `.control-group` and `.controls` style classes as the following example shows:
 
-![Code Snipet]({{ site.baseurl }}/assets/capture21.png){:class="img-responsive"}
+![Code Snipet]({{ site.baseurl }}/images/capture21.png){:class="img-responsive"}
 
 Once did this for every form field you should proceed to write some jQuery code to ensure the label get the right style because the ASP.NET MVC3 Html.LabelFor helper wont let you add custom HTML attributes. So..
 

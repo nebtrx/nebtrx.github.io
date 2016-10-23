@@ -1,16 +1,13 @@
 # main links links
 main:
-  - title: "Me"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/navigation/
+  - title: "About"
+    url: /about/
 
   - title: "Blog"
     url: /
 
   - title: "Twilio Contributions"
-    url: /
-
-  - title: "Resume"
-    url: /
+    url: /twilio-contributions
 
   - title: "Contact"
-    url: /
+    url: /contact/
