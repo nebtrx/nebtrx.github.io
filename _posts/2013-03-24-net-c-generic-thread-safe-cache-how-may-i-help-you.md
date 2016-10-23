@@ -1,7 +1,5 @@
 ---
-layout: post
 title: .Net C# Generic Thread Safe Cache, how may I help you?
-status: publish
 categories:
 - ood
 tags:
@@ -12,6 +10,7 @@ tags:
 - Generic
 - Thread Safe
 ---
+
 A few days ago I ran repeatedly in the need of using a cache abstract data structure for storing objects (.Net C# objects) with expensive creation process. So, I said to myself:
 
 _“Myself, you need to make a generic cache abstract data structure you can use any time without BCL restrictions, and you will improve it as your needs over time dictate. In fact the first improvement dictated would be it must be thread safe, because many objects guys will want to flatter that cache girl.“_
