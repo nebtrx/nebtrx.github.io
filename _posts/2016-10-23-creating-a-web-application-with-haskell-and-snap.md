@@ -73,7 +73,7 @@ allow us immutable Unicode text manipulation and strings interpolation.
 
 The heart of the Snap's snaplets infrastructure is state management. Based on that
 a good start for this application will be defining a data structure to hold the state,
-which includes the state of all snaplets used by our application. Let's define this type in a module called [Application](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Application.hs).
+which includes the state of all snaplets used by our application. Let's define this type in a module called [Application](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Application.hs).
 
 ```haskell
 data App = App
@@ -91,7 +91,7 @@ a simple connection like this sample app does. But don't worry about it, most of
 the libraries for accessing databases are shipped with that feature, like for example [Persistent](https://hackage.haskell.org/package/persistent)
 
 The `App` data structure is used to initialize the web app in the
-[Site module](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Site.hs#L139-L146)
+[Site module](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Site.hs#L139-L146)
 like follows:
 
 ```haskell
@@ -109,7 +109,7 @@ If you take a closer look, the initializer computation starts up Heist and the d
 It also configures routes and checks for migrations, but we'll get to that later.
 So, this module is really important as it holds our application stack and resource handlers.
 
-As for the [Main module](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Main.hs),
+As for the [Main module](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Main.hs),
 it just bootstraps the web server using the previous snaplet created in the
 function `app` and the application configuration. You rarely will need to modify
 it, but we encourage you take a look at it and understand what happens there.
@@ -119,7 +119,7 @@ it, but we encourage you take a look at it and understand what happens there.
 This application goes about managing Todo items, which requires a very simple
 data type definition with fields for description, completion status and,
 of course, a primary key. This is defined in the
-[Db module](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Db.hs)
+[Db module](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Db.hs)
 and this is how it looks like using
 [record syntax](https://en.wikibooks.org/wiki/Haskell/More_on_datatypes#Named_Fields_.28Record_Syntax.29):
 
@@ -130,7 +130,7 @@ data Todo = Todo
   , completed   :: Bool
   } deriving (Eq, Show, Read)
 ```
-[Back in the Site module](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Site.hs#L143), it was used a function called `checkMigrationOrMigrate`
+[Back in the Site module](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Site.hs#L143), it was used a function called `checkMigrationOrMigrate`
 receiving a database connection as parameter, while initializing our Todo App.
 This function verifies if `todos` table exists in the database. If not then creates it.
 
@@ -200,7 +200,7 @@ to perform the following operations with Todo items against a database:
 
 So, what happens if we map those operations over some code?. Well, the result
 are the following functions from the
-[Db module](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Db.hs)
+[Db module](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Db.hs)
 
 The `saveTodo`function receives a `Todo` data value. If its `todoID` field, which has a
 `Maybe Int` type, holds `Nothing`, then it inserts a new Todo item row in the
@@ -277,7 +277,7 @@ deleteTodo conn todoId = do
 Finally, `allTodos` selects all the Todo items while organizing them with the completed
 ones listed last. Bear in mind `quickQuery'` returns a `[[SqlValue]]` value in the
 context of an [IO monad](https://wiki.haskell.org/IO_inside), so it uses a simple
-and easy to understand [`rowToTodo`](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Db.hs#L80-L87) function to turn those rows into `Todo`
+and easy to understand [`rowToTodo`](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Db.hs#L80-L87) function to turn those rows into `Todo`
 data values. Notice it's used the [rights](http://hackage.haskell.org/package/base-4.9.0.0/docs/Data-Either.html#v:rights)
 function in order to filter the
 correct results from applying `rowToTodo`, which returns an `Either String Todo`
@@ -302,11 +302,6 @@ to mark it as done or delete it, and a form for new items submission purpose. Ju
 like this
 
 ![Snap Todo web app]({{ site.baseurl }}/images/todo.png){:class="img-responsive"}
-<p align="center">
-  <img alt="Snap Todo web app" src="todo.png" style="width:50%;height:50%;" />
-  </br>
-</p>
-
 
 This application uses Snap and therefore it seemed logical to use its default template engine: Heist.
 
@@ -316,7 +311,7 @@ but that's out of the scope of the tutorial. Anyway, you should know this
 tutorial uses interpreted templates, and also another structure called [Splice](http://snapframework.com/docs/tutorials/heist#heist-programming) to pull
 values from. You'll see more about that in a bit
 
-This is an extract of how the [todos.tpl](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/snaplets/heist/templates/todos.tpl) Heist template for this tutorial
+This is an extract of how the [todos.tpl](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/snaplets/heist/templates/todos.tpl) Heist template for this tutorial
 application looks like. The submission form was left out for the sake of simplicity
 
 ```html
@@ -359,7 +354,7 @@ application looks like. The submission form was left out for the sake of simplic
 ```
 Lets explain this a little bit. The `<apply template="base">` tag means this
 view uses a layout Heist template called `base.tpl`, you can look at
-it [here](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/snaplets/heist/templates/todos.tpl). The `<todos>` node implies everything it encloses will be repeated
+it [here](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/snaplets/heist/templates/todos.tpl). The `<todos>` node implies everything it encloses will be repeated
 for every single Todo item. That comes from the Todo index request handler
 
 ```haskell
@@ -393,7 +388,7 @@ spliceForTodo todo = do
                                     else ""
 ```
 
-Those values are used back in our [todos.tpl](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/snaplets/heist/templates/todos.tpl#L7-L22) Heist template as the
+Those values are used back in our [todos.tpl](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/snaplets/heist/templates/todos.tpl#L7-L22) Heist template as the
 `<description/>` tag or to build the **marks as done** link URL `/todos/${id}/complete/${notCompleted}`
 
 All this content is served through request handlers, which also control the
@@ -457,14 +452,14 @@ monad, which is the same as `Handler App App`, so if you want to perform a compu
 in the context of the `IO` monad, like calling `Db.saveTodo`, you have to lift it
 to the context of the current `Snap` monad using [`liftIO`](https://hackage.haskell.org/package/transformers-0.4.2.0/docs/Control-Monad-IO-Class.html)
 
-[Mark a Todo item as done](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Site.hs#L63-L86), which is just updating it, is also quite simple. It follows
+[Mark a Todo item as done](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Site.hs#L63-L86), which is just updating it, is also quite simple. It follows
 the same approach with a couple of differences. First, it uses
  [`getParam'`](http://hackage.haskell.org/package/snap-extras-0.11.0.2/docs/Snap-Extras-CoreUtils.html#v:getParam-39-)
 instead of `getPostParam` because this time we're dealing with route params.
 Remember the `:todoId` segment in routes definitions?. That means we can capture
 a route param by calling `getParam' "todoId"`.
 
-After this, It uses a utility function called [`fromBSTo`](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Utilities.hs#L32-L35) to extract the `ByteString` enclosed
+After this, It uses a utility function called [`fromBSTo`](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Utilities.hs#L32-L35) to extract the `ByteString` enclosed
 Todo primary key in order to retrieve the `Todo` data value. This is used to feed
 `Db.updateTodoCompleted` along with the updated `completed` field value.
 `Db.updateTodoCompleted` function returns an updated `Todo` which then is saved to the database
@@ -478,7 +473,7 @@ liftIO $ Db.saveTodo c  (Db.updateTodoCompleted todo
 ```
 
 Once understood this, it will be very easy for you to go over the [handler for
-removing Todo items](https://github.com/stackbuilders/tutorials/tutorials/haskell/snap-web-app/code/src/Todo/Site.hs#L91-L104) by yourself. Its practically the same thing. It grabs the
+removing Todo items](https://github.com/nebtrx/snap-web-app-tutorial/blob/master/src/Todo/Site.hs#L91-L104) by yourself. Its practically the same thing. It grabs the
 Todo primary key and the passes it to the `Db.deleteTodo` function which do the
 rest of the job.
 
