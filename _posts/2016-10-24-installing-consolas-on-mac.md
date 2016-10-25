@@ -9,7 +9,7 @@ tags:
 - mac OS X
 ---
 
-I'm a big fan of using [Consolas Font Family](https://www.microsoft.com/typography/fonts/family.aspx?FID=300) for programming purposes, the one from [Visual Studio](https://www.visualstudio.com/). Well, it turns out that I'm no longer developing under Windows(thanks to aliens 👽), but still I want to use the font on my mac for the same purpose.
+I'm a big fan of using [Consolas Font Family](https://www.microsoft.com/typography/fonts/family.aspx?FID=300) for programming purposes, the one from [Visual Studio](https://www.visualstudio.com/). Well, it turns out that I'm no longer developing under Windows(thanks to aliens 👽), but I still want to use the font on my mac for the same purpose.
 
 If you  have my same taste, you're in luck. Just follow this steps to achieve it.
 
