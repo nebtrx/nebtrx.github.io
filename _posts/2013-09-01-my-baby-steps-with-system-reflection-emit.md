@@ -3,11 +3,10 @@ title: My baby steps with System.Reflection.Emit
 categories:
 - hacks
 tags:
-- C#
-- emit
+- .Net
 - IL
 - IL rewriting
-- reflection
+- Reflection Emit
 ---
 
 Just a couple of days ago I was implementing a Generic Repository Pattern with Unit of Work for Entity Framework(which I'll share with in a close future). It all went well until I ran into a little difficult. My Repository concrete class took an extra Type parameter to refer the DbContext.
@@ -129,7 +128,7 @@ I’ll illustrate who I ended using this code, but for better understanding I’
 public static Type GetContextBindableRepository()
     where TDbContext: DbContext, IContextDbSetWithEntityKeyResolver
 {
-  	// Defining a type builder for a public class named "RepositoryFaker".
+    // Defining a type builder for a public class named "RepositoryFaker".
   	TypeBuilder repositoryFakerBuilder = GetFakeRepositoryModuleBuilder()
                                             .DefineType("RepositoryFakerAssembly.RepositoryFaker", TypeAttributes.Public);
 
@@ -155,7 +154,7 @@ public static Type GetContextBindableRepository()
         {
             repositoryFakerBuilder.GenericTypeParameters[0], repositoryFakerBuilder.GenericTypeParameters[1], typeof(TDbContext)
         }
-      ));
+    ));
 
   	// Defining constructors parameters
   	// .. (IEFUnitOfWork unitOfWork)
