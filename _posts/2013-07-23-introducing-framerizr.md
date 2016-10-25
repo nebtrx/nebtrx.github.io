@@ -1,6 +1,7 @@
 ---
 title: Introducing Framerizr
 categories:
+- introduction
 - hacks
 tags:
 - ASP.NET
