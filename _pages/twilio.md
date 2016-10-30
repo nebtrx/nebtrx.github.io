@@ -185,7 +185,7 @@ Implement a simple chat application using Twilio IP Messaging Client
 {: .archive__item-excerpt}
 
 <code class="highlighter-rouge">
-  <a href="https://github.com/TwilioDevEd/eta-notifications-csharp">
+  <a href="https://github.com/TwilioDevEd/twiliochat-node">
     <i class="fa fa-fw fa-github" aria-hidden="true"></i>Node.js</a>
 </code>
 `Express`
