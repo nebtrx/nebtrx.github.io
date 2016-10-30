@@ -3,5 +3,5 @@ permalink: /about
 title: "About me"
 ---
 
-**Under development**
+Under development
 {: .notice--info}
